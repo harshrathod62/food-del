@@ -55,7 +55,7 @@ const Footer = () => {
             </li>
             <li>
               {/* Email address */}
-              <a href="mailto:harshraj@gmail.com"><i className="fas fa-envelope"></i> harshraj@gmail.com</a>
+              <a href="mailto:fastfood.customersupport"><i className="fas fa-envelope"></i> fastfood.customersupport</a>
             </li>
             <li>
               {/* Physical address */}
