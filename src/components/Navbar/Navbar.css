@@ -94,3 +94,44 @@
         display: none;
     }
 }
+.navbar-user {
+  position: relative;
+  display: inline-block;
+}
+
+.user-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  z-index: 100;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  min-width: 160px;
+  text-align: left;
+}
+
+.profile-dropdown p {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #333;
+}
+
+.profile-dropdown button {
+  background-color: tomato;
+  border: none;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+}

@@ -88,7 +88,7 @@ const Footer = () => {
         </div>
 
         {/* New Column for App Download - Now using image logos */}
-        <div className="footer-content-app-download">
+        <div className="footer-content-app-download" id="app-download">
           <h2>DOWNLOAD OUR APP</h2>
           <p>For a better experience, download our mobile app:</p>
           <div className="app-download-platforms"> {/* Reverted to app-download-platforms */}

@@ -1,41 +1,117 @@
-import React, { useState } from "react";
-import "./LoginPopup.css";
-import { assets } from "../../assets/assets";
-const LoginPopup = ({ setShowLogin }) => {
-  const [currState, setCurrState] = useState("Sign Up");
+import React, { useState } from 'react';
+import './LoginPopup.css';
+import { auth, googleProvider } from '../../firebaseConfig';
+import {
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  sendPasswordResetEmail,
+  signInWithPopup,
+} from 'firebase/auth';
+
+function LoginPopup({ setShowLogin }) {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [isLogin, setIsLogin] = useState(true);
+  const [error, setError] = useState('');
+  const [message, setMessage] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setMessage('');
+
+    try {
+      if (isLogin) {
+        await signInWithEmailAndPassword(auth, email, password);
+        setShowLogin(false);
+      } else {
+        await createUserWithEmailAndPassword(auth, email, password);
+        setMessage('Account created! You can now log in.');
+        setIsLogin(true);
+      }
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithPopup(auth, googleProvider);
+      setShowLogin(false);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Enter your email to reset password.');
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setMessage('Password reset email sent!');
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
   return (
     <div className="login-popup">
-      <form className="login-popup-container">
-        <div className="login-popup-title">
-          <h2>{currState}</h2>
-          <img onClick={()=>setShowLogin(false)} src={assets.cross_icon} alt="" />
-        </div>
-        <div className="login-popup-inputs">
-          {currState === "Login" ? (
-            <></>
-          ) : (
-            <input type="text" placeholder="Your Name" required />
-          )}
-          <input type="email" placeholder="Your email" required />
-          <input type="password" placeholder="Password" required />
-        </div>
-        <button>{currState === "Sign Up" ? "Creat account" : "Login"}</button>
-        <div className="login-popup-condition">
-          <input type="checkbox" required />
-          <p>By continuing, i agree to the terms of use & privacy policy</p>
-        </div>
-        {currState === "Login" ? (
-          <p>
-            Create a new account? <span onClick={()=>setCurrState("Sign Up")}>Click here</span>
-          </p>
-        ) : (
-          <p>
-            Already have an account? <span onClick={()=>setCurrState("Login")}>Login here</span>
-          </p>
+      <form className="login-popup-inner" onSubmit={handleSubmit}>
+        <h2>{isLogin ? 'Sign In' : 'Sign Up'}</h2>
+
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+        />
+
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        />
+
+        {error && <div className="error">{error}</div>}
+        {message && <div className="message">{message}</div>}
+
+        <button type="submit">{isLogin ? 'Login' : 'Create Account'}</button>
+
+        {isLogin && (
+          <button
+            type="button"
+            className="forgot-pass"
+            onClick={handleForgotPassword}
+          >
+            Forgot Password?
+          </button>
         )}
+
+        <div className="or-divider">OR</div>
+
+        <button type="button" className="google-btn" onClick={handleGoogleSignIn}>
+          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" />
+          Sign in with Google
+        </button>
+
+        <div className="switch-mode">
+          {isLogin ? "Don't have an account?" : "Already have an account?"}
+          <button type="button" onClick={() => setIsLogin(!isLogin)}>
+            {isLogin ? 'Sign Up' : 'Login'}
+          </button>
+        </div>
+
+        <button type="button" className="close-btn" onClick={() => setShowLogin(false)}>
+          Close
+        </button>
       </form>
     </div>
   );
-};
+}
 
 export default LoginPopup;
