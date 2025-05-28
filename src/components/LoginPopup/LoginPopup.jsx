@@ -1,3 +1,5 @@
+// src/components/LoginPopup/LoginPopup.jsx
+
 import React, { useState } from 'react';
 import './LoginPopup.css';
 import { auth, googleProvider } from '../../firebaseConfig';
@@ -30,7 +32,19 @@ function LoginPopup({ setShowLogin }) {
         setIsLogin(true);
       }
     } catch (err) {
-      setError(err.message);
+      switch (err.code) {
+        case 'auth/user-not-found':
+          setError('No user found with this email.');
+          break;
+        case 'auth/wrong-password':
+          setError('Incorrect password.');
+          break;
+        case 'auth/invalid-email':
+          setError('Invalid email address.');
+          break;
+        default:
+          setError(err.message);
+      }
     }
   };
 

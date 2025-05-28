@@ -131,3 +131,50 @@
   font-size: 14px;
   text-align: center;
 }
+.user-menu {
+  position: relative;
+  cursor: pointer;
+}
+
+.user-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ff6347;
+}
+
+.dropdown {
+  position: absolute;
+  top: 40px;
+  right: 0;
+  background-color: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 10px;
+  z-index: 1000;
+  min-width: 180px;
+  text-align: left;
+}
+
+.dropdown p {
+  margin: 0 0 10px 0;
+  font-weight: 500;
+  color: #333;
+}
+
+.dropdown button {
+  background: #ff6347;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s;
+}
+
+.dropdown button:hover {
+  background: #e0523f;
+}
